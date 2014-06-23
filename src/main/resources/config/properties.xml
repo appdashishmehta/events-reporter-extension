@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<events>
+
+		<args>
+			<alertSystem>AppDynamics Machine Agent Alerting Extension</alertSystem>
+			<maxCommands>10</maxCommands>
+			<hostname></hostname>
+		</args>
+
+        <!-- For this action, properties required in commands using it are 'subject' and 'body' -->
+		<action id="1">
+			<type>email</type>
+			<to></to>  
+            <properties>
+			    <property name="mail.smtp.host" value="smtp.gmail.com"/>
+				<property name="mail.smtp.port" value="587"/>
+				<property name="mail.smtp.auth" value="true"/>
+				<property name="mail.smtp.user" value=""/>
+				<property name="mail.smtp.password" value=""/>	
+                <property name="mail.smtp.starttls.enable" value="true"/>			
+			</properties>		
+		</action>
+   
+        <!-- For this action, properties required in commands using it is 'description' -->
+		<action id="2">
+			<type>pagerduty</type>
+			<serviceKey></serviceKey>
+			<serviceUrl>https://events.pagerduty.com/generic/2010-04-15/create_event.json</serviceUrl>   
+		</action>
+		
+		<!-- For this action, properties required in commands using it are 'eventType' (value can be info, error, warning) and 'summary'  -->
+		<action id="3">
+			<type>EventsToController</type>
+			<httpUrl>http://localhost:8293/machineagent/event?</httpUrl>  
+		</action>
+  
+        <!-- All the fields in command tags are required and properties as required for action defined to be used for command -->
+        <command id="1">
+            <enabled>true</enabled>
+			<run>ps -ef | grep java | grep -v grep</run>
+			<frequencyMins>1</frequencyMins>
+			<actionId>1</actionId>
+			<properties>
+			    <property name="subject" value="test subject"/>
+				<property name="body" value="Process not running"/>
+			</properties>
+        </command>
+		   
+		<command id="2">
+		    <enabled>true</enabled>
+			<run>notepad++.exe</run>
+			<frequencyMins>2</frequencyMins>
+			<actionId>2</actionId>
+			<properties>
+			    <property name="description" value="test description"/>
+			</properties>
+        </command>
+        
+        <command id="3">
+            <enabled>true</enabled>
+			<run>ps -ef | grep machine | grep -v grep</run>
+			<frequencyMins>1</frequencyMins>
+			<actionId>3</actionId>
+			<properties>
+			     <property name="eventType" value="info"/>
+			     <property name="summary" value="Command 3 not working"/>
+			</properties>
+        </command>
+   
+</events>

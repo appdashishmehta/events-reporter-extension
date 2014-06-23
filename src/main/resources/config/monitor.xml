@@ -1,0 +1,22 @@
+<monitor>
+    <name>events-reporter</name>
+    <type>managed</type>
+    <description>Events Reporter Extension</description>
+    <monitor-configuration></monitor-configuration>
+    <monitor-run-task>
+        <execution-style>periodic</execution-style>
+        <execution-frequency-in-seconds>60</execution-frequency-in-seconds>
+        <name>Events Reporter Run task</name>
+        <display-name>Events Reporter Run task</display-name>
+        <description>Events Reporter Run task</description>
+        <type>java</type>
+        <execution-timeout-in-secs>20</execution-timeout-in-secs>
+        <task-arguments>
+            <argument name="properties-path" is-required="true" default-value="C:\AppDynamics\MachineAgent3.7.7\monitors\EventsReporter\properties.xml"/>
+        </task-arguments>
+        <java-task>
+            <classpath>events-reporter-extension.jar</classpath>
+            <impl-class>com.appdynamics.extensions.EventsReporter</impl-class>
+        </java-task>
+    </monitor-run-task>
+</monitor>
